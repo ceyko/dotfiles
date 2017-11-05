@@ -31,10 +31,18 @@ call plug#end()
 
 
 " Tab navigation
-nmap <silent> [k :tabprevious<CR>
-nmap <silent> ]k :tabnext<CR>
+nmap <silent> ]k :<C-U>exe TabnextRelativeNr() . "tabn"<CR>
+nmap <silent> [k :<C-U>exe v:count . "tabp"<CR>
 nmap <silent> [K :tabfirst<CR>
-nmap <silent> ]K :exe "tabn " tabpagenr('$')<CR>
+nmap <silent> ]K :exe tabpagenr('$') . "tabn"<CR>
+function! TabnextRelativeNr()
+  let tabNumber = (v:count1 + tabpagenr()) % tabpagenr('$')
+  if tabNumber == 0
+    return tabpagenr('$')
+  else
+    return tabNumber
+  endif
+endfunction
 
 " Tag navigation with tabs
 nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
