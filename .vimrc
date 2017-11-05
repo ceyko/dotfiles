@@ -12,11 +12,22 @@ set autoindent
 " bash-like tab completion
 set wildmenu wildmode=longest,list
 
-
-" use vim-pathogen for managing plugins
-call pathogen#infect()
-
-" below originally from /usr/share/vim/vim73/vimrc_example.vim
+" Use vim-plug for plugins
+call plug#begin('~/.vim/bundle')
+Plug 'wincent/command-t'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mattn/flappyvird-vim'
+Plug 'vim-scripts/FuzzyFinder' | Plug 'vim-scripts/L9'
+Plug 'Shutnik/jshint2.vim'
+Plug 'scrooloose/nerdtree'
+"Plug 'shawncplus/phpcomplete.vim'
+Plug 'majutsushi/tagbar'
+Plug 'tpope/tpope-vim-abolish'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-fugitive'
+Plug 'fatih/vim-go'
+Plug 'tpope/vim-unimpaired'
+call plug#end()
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
