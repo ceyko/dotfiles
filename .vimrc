@@ -37,6 +37,12 @@ set ruler       " show the cursor position all the time
 set showcmd     " display incomplete commands
 set incsearch   " do incremental searching
 
+" Use line numbers and relative numbers when available
+set number
+if v:version >= 704
+  set relativenumber
+endif
+
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
@@ -48,6 +54,9 @@ inoremap <C-U> <C-G>u<C-U>
 if has('mouse')
   set mouse=a
 endif
+
+" We're using a 256 color terminal
+set t_Co=256
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -62,6 +71,9 @@ filetype plugin indent on
 
 " For all text files set 'textwidth' to 78 characters.
 autocmd FileType text setlocal textwidth=78
+
+" Set this after handling indenting, since the default php indenting adds it
+set formatoptions-=w " don't append spaces to reformatted text
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
