@@ -84,7 +84,88 @@ endif
 " Map fuzzy file search to
 nnoremap <C-p> :FufCoverageFile<CR>
 let g:fuf_keyOpenTabpage = '<CR>'
-let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.bak$|\.swp$|\.class$|\.html$|\.jar$|\.DS_Store$|\.zip$|\.gif$|\.png$|^dist/.*$|/compiled_views/'
+let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.bak$|\.swp$|\.class$|\.html$|\.jar$|\.DS_Store$|\.zip$|\.gif$|\.png$|^dist/.*$|/compiled_views/|www/assets/scripts/|/node_modules/'
+
+" JSHint files on save
+let jshint2_save = 1
+
+
+"""""""""""""""
+" Status Line "
+"""""""""""""""
+
+" Always show status line
+set laststatus=2
+" vim-airline Status lines
+let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
+"function! airline#extensions#tabline#foo#format(bufnr, buffers)
+"  return fnamemodify(bufname(a:bufnr), ':t')
+"endfunction
+"let g:airline#extensions#tabline#formatter = 'foo'
+
+
+"""""""""""""
+" Ctags     "
+"""""""""""""
+
+" Location of Universal Ctags executable
+let s:ctags_bin = "~/ctags_build/bin/ctags"
+
+function! ComputeCtags(...)
+  execute '!php -d="display_errors=1" ' . s:ctags_bin . ' --exclude="vendor" -R > /dev/null &'
+  redraw!
+endfunction
+
+
+"""""""""""""
+" CtrlP     "
+"""""""""""""
+
+"Setup CtrlP to use Universal Ctags
+let g:ctrlp_buftag_ctags_bin = s:ctags_bin
+
+
+"""""""""""""
+" Tagbar    "
+"""""""""""""
+
+" Setup Tagbar to use Universal Ctags
+let g:tagbar_ctags_bin = s:ctags_bin
+
+" Always use Tagbar for php files
+autocmd BufEnter *.php nested TagbarOpen
+
+" No point in keeping a Tagbar open if the file is gone
+autocmd BufEnter * call CloseLoneTagbar()
+
+function! CloseLoneTagbar()
+  if &ft == "tagbar" && tabpagewinnr(tabpagenr(), '$') == 1
+    if winnr() == 1
+      quit
+    else
+      close
+    endif
+  endif
+endfunction
+
+
+"""""""""""""
+" Fugitive  "
+"""""""""""""
+
+" Remake temp file dir (for long-running screen sessions & broken fugitive)
+function! Greset()
+  mkdir(fnamemodify(tempname(), ":p:h"))
+endfunction
+
+
+"""""""""""""
+" Golang    "
+"""""""""""""
+
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
 
 
 """""""""""""
