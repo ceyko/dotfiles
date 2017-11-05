@@ -29,6 +29,19 @@ Plug 'fatih/vim-go'
 Plug 'tpope/vim-unimpaired'
 call plug#end()
 
+
+" Tab navigation
+nmap <silent> [k :tabprevious<CR>
+nmap <silent> ]k :tabnext<CR>
+nmap <silent> [K :tabfirst<CR>
+nmap <silent> ]K :exe "tabn " tabpagenr('$')<CR>
+
+" Tag navigation with tabs
+nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
+" Would be nice to see all tags first, but doesn't work
+":nnoremap <silent><Leader>g]    <C-w>g]<C-w>T
+
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
